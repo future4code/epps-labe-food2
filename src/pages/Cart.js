@@ -1,34 +1,53 @@
-import React, { useContext, useEffect } from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
 import IfutureContext from "../Context/IfutureContext";
+import { baseURL } from "../parameters";
 import styles from "./Cart.module.css";
+import styled from "styled-components";
 export const Cart = () => {
   const { states, setters, requests } = useContext(IfutureContext);
   const { getFullAddress, getActiveOrder, getRestaurantDetail } = requests;
   const { address, activeOrder, cart, resDetail } = states;
+
+  const [paymentMethod, setPaymentMethod] = useState("");
   //Nome
   // Endereço
   //Delivery time
+
+  const AddresConteiner = styled.div`
+    background-color: #eee;
+    padding: 1rem;
+  `;
+  const AddresTitle = styled.p`
+    letter-spacing: 0.39px;
+    color: #b8b8b8;
+    margin-bottom: 0.5rem;
+  `;
+  const Addres = styled.p`
+    color: black;
+    font-weight: bold;
+    letter-spacing: 0.39px;
+  `;
 
   useEffect(() => {
     getFullAddress();
     getCart(cart);
     getRestaurantDetail(resDetail);
-    getPrice(resDetail,cart)
+    // getPrice(resDetail, cart);
   }, [cart, resDetail]);
 
   // console.log(address)
 
   const getAddress = (address) => {
     return (
-      <div>
-        <p>Endereço de Entrega</p>
-        <p>
+      <AddresConteiner>
+        <AddresTitle>Endereço de Entrega</AddresTitle>
+        <Addres>
           {address.street}, {address.number}
-        </p>
-      </div>
+        </Addres>
+      </AddresConteiner>
     );
   };
-  
 
   const restaurantInfo = (resDetail) => {
     return (
@@ -41,7 +60,7 @@ export const Cart = () => {
   };
 
   const getCart = (cart) => {
-    return cart.map((product) => {
+    const cardsOrder = cart.map((product) => {
       return (
         <div className={styles.teste} key={product.id}>
           <img
@@ -57,42 +76,122 @@ export const Cart = () => {
         </div>
       );
     });
+    return  (
+      <div>{cardsOrder}
+        {cart.length === 0 ? noCart() : getPrice(resDetail,cart)}
+      </div>
+    );
   };
 
   const noCart = () => {
     return (
       <div>
         <p>Carrinho Vazio</p>
-        <p>Frete</p>
-        <p>SUBTOTAL:</p>
-        <span>R$00.00</span>
+        <div>
+          <p>Formas de Pagamento</p>
+          <label>
+            <input
+              type="radio"
+              value="money"
+              name="paymentMethod"
+              onChange={({ target }) => setPaymentMethod(target.value)}
+            />
+            Dinheiro
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="creditcard"
+              name="paymentMethod"
+              onChange={({ target }) => setPaymentMethod(target.value)}
+            />
+            Cartão de Credito
+          </label>
+          {paymentMethod === "" ? (
+            <button disabled>Confirmar</button>
+          ) : (
+            <button
+              onClick={() => createOrder(cart, paymentMethod)}
+              style={{ background: "red" }}
+            >
+              Confirmar
+            </button>
+          )}
+        </div>
       </div>
     );
   };
 
-  const getPrice = (resDetail, cart) =>{
-    console.log(cart)
-    const shipping = resDetail.shipping
-    // const productsPrice = cart.reduce((acc, price) => acc )
+  const getPrice = (resDetail, cart) => {
+    const cartPrice = cart.map((cartPrice) => {
+      return cartPrice.price;
+    });
 
-    const subtotal = shipping 
-    return(
+    const shipping = resDetail.shipping;
+    const totalOrder = cartPrice.reduce(
+      (acc, initialValue) => acc + initialValue
+    );
+
+    // console.log(productsPrice)
+
+    const subtotal = shipping + totalOrder;
+    return (
       <div>
         <p> Frete: {shipping}</p>
         <p>SubTotal: {subtotal}</p>
+
+        <div>
+          <p>Formas de Pagamento</p>
+          <label>
+            <input
+              type="radio"
+              value="money"
+              name="paymentMethod"
+              onChange={({ target }) => setPaymentMethod(target.value)}
+            />
+            Dinheiro
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="creditcard"
+              name="paymentMethod"
+              onChange={({ target }) => setPaymentMethod(target.value)}
+            />
+            Cartão de Credito
+          </label>
+          {paymentMethod === "" ? (
+            <button disabled>Confirmar</button>
+          ) : (
+            <button
+              onClick={() => createOrder(cart, paymentMethod)}
+              style={{ background: "red" }}
+            >
+              Confirmar
+            </button>
+          )}
+        </div>
       </div>
-    )
-  }
+    );
+  };
+
+  const createOrder = (cart, paymentMethod) => {
+    const products = cart.map((cartOrder) => {
+      return cartOrder.id;
+    });
+
+    axios.post(`${baseURL}/${resDetail.id}/order`);
+
+    console.log(products);
+  };
 
   return (
     <div>
-      <h1>Meu Carinho</h1>
+      <p>Meu Carinho</p>
       {address && getAddress(address)}
       {resDetail && restaurantInfo(resDetail)}
       {cart.length === 0 ? noCart() : getCart(cart)}
-      {cart && resDetail && getPrice(resDetail, cart)}
-      <button disabled>Confirmar</button>
-      <p></p>
+
     </div>
   );
 };

@@ -77,9 +77,8 @@ const IfutureProvider = (props) => {
                 product: product.name,
                 price: product.price,
                 image: product.photoUrl,
-                description: product.description
-          
-
+                description: product.description,
+                quantity: product
         }
         const novaLista = [...cart]
         novaLista.push(produtos)

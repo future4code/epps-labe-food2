@@ -10,6 +10,7 @@ const RestaurantDetail = () => {
     const { states, setters, requests } = useContext(IfutureContext)
     const [resDetail, setResDetail] = useState([])
     const pathParams = useParams()
+    const [quantity, setQuantity] = useState(0)
 
     const history = useHistory()
     
@@ -41,6 +42,7 @@ const RestaurantDetail = () => {
                 <p>{product.name}</p>
                 <p>{product.description}</p>
                 <p>R$ {(product.price?? 0).toFixed(2)}</p>
+                
                 <img src={product.photoUrl} style={{width:"100px"}}></img>
                 <button onClick={() =>requests.addProduto(product)}>adicionar</button>
             </div>
