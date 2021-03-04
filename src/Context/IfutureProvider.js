@@ -125,8 +125,7 @@ const IfutureProvider = (props) => {
     }
   };
 
-    console.log("cart", cart);
-  };
+ 
 
   const states = {
     profile,
