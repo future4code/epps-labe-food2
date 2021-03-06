@@ -7,6 +7,7 @@ import OrderHistory from './OrderHistory/OrderHistory'
 import {Button, Img} from './Profile_Styled'
 import {Container} from '../RestaurantDetail/styled'
 import {LabelsProfile, UserBox, LabelOrder, MiniGrid } from './Profile_Styled'
+import Loader from "../../components/Loader"
 
 const Profile = () => {
     
