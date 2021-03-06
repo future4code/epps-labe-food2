@@ -26,10 +26,12 @@ const IfutureProvider = (props) => {
         headers: { auth: token },
       });
       setProfile(response.data.user);
+      
 
       if (response.data.user.hasAddress === false) {
         goTo(history, "/address", "");
       }
+      
     } catch (error) {
       console.log(error);
     }

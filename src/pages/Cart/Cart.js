@@ -27,6 +27,7 @@ import { BoxAddress, AddressTitle } from "../Profile/Address/Address_styled";
 import { goTo } from "../../routes/Coordinator";
 import { useHistory } from "react-router-dom";
 import useProtectedPage from "../../hooks/useProtectedPage";
+import Loader from "../../components/Loader";
 
 export const Cart = () => {
   useProtectedPage()

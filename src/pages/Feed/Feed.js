@@ -22,6 +22,7 @@ import {
 } from "../RestaurantDetail/styled";
 import useProtectedPage from "../../hooks/useProtectedPage";
 import OrderModal from "../../components/OrderModal";
+import Loader from '../../components/Loader'
 
 const Feed = () => {
   const { states, setters, requests } = useContext(IfutureContext);
@@ -52,10 +53,13 @@ const Feed = () => {
   const history = useHistory();
 
   async function getRestaurants(token) {
-
+    setters.setLoading(true)
     await axios
       .get(`${baseURL}/restaurants`, { headers: { auth: token } })
-      .then((response) => setRestaurantsList(response.data.restaurants))
+      .then((response) => {
+        setRestaurantsList(response.data.restaurants)
+        setters.setLoading(false)
+      })
       .catch(() => console.log("deu ruim"));
   }
 
@@ -136,6 +140,8 @@ const Feed = () => {
   
 
   return (
+    <>
+    {states.isLoading ? <Loader/> : 
     <>
       <OrderModal />
       <ContainerPage>
@@ -232,6 +238,8 @@ const Feed = () => {
           </>
         )}
       </ContainerPage>
+    </>
+    }
     </>
   );
 };
