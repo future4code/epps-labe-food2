@@ -1,0 +1,94 @@
+
+.label-float{
+    position: relative;
+    padding-top: 13px;
+    margin-bottom: 10px;
+  }
+  
+  .label-float input{
+    width: 20.5rem;
+    height: 3.125rem;
+    font-family: Roboto;
+    font-size: 1rem;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.39px;
+    color: var(--black);
+    border: 1px solid #b8b8b8;
+    border-radius: 2px;
+    outline: none;
+    min-width: 250px;
+    padding: 15px 20px;
+    font-size: 16px;
+    transition: all .1s linear;
+    -webkit-transition: all .1s linear;
+    -moz-transition: all .1s linear;
+    -webkit-appearance:none;
+  }
+  
+  .label-float input:focus{
+    border: 2px solid rgba(232, 34, 46, 0.5);
+  }
+  
+  .label-float input::placeholder{
+    /* margin: 30px;
+    padding: 100px; */
+  }
+  
+  .label-float label{
+    font-family: Roboto;
+    font-size: 12px;
+    top: 100%;
+    padding: 1px;
+    background-color:white;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.29px;
+    color: #b8b8b8;
+    pointer-events: none;
+    position: absolute;
+    top: calc(20% - 7px);
+    left: 15px;
+    transition: all .1s linear;
+    -webkit-transition: all .1s linear;
+    -moz-transition: all .1s linear;
+    box-sizing: border-box;
+  }
+  
+  .label-float input:required:invalid + label{
+    color: #b8b8b8;
+  }
+  .label-float input:focus:required:invalid{
+    border: 2px solid rgba(232, 34, 46, 0.5);
+  }
+  .label-float input:required:invalid + label:before{
+    content: '*';
+  }
+  .label-float input:focus + label,
+  .label-float input:not(:placeholder-shown) + label{
+    font-size: 0.75 rem;
+    top: 0;
+    color: #b8b8b8;
+  }
+
+  /* .senha {
+    background-image: url("../Icons/SVG/senha.svg");
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: 95%;
+  } */
+
+  .imgPass {
+    position: absolute;
+    top: 28px;
+    right: 16px;
+    cursor: pointer;
+  }
+
+  .divInputPass {
+    position: relative;
+  }
